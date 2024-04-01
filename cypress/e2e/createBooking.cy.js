@@ -39,7 +39,7 @@ describe("Creates a new booking", () => {
       },
       failOnStatusCode: false,
     }).then((response) => {
-      expect(response.body).to.be.jsonSchema(bookingSchema);
+      expect(response.body).to.be.jsonSchema(createBookingSchema);
       expect(response.status).to.equal(200);
     });
   });
