@@ -1,20 +1,12 @@
-import { bookingSchema } from "../utils/schema";
+import { createBookingSchema } from "../utils/schema";
+import { firstNameMissing, perfectUserInfo } from "../utils/testData";
 
 describe("Creates a new booking", () => {
   it("should return 400 saying that firstname is missing", () => {
     cy.request({
       method: "POST",
       url: "/booking",
-      body: {
-        lastname: "Brown",
-        totalprice: 111,
-        depositpaid: true,
-        bookingdates: {
-          checkin: "2018-01-01",
-          checkout: "2019-01-01",
-        },
-        additionalneeds: "Breakfast",
-      },
+      body: firstNameMissing,
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.body).to.have.property("message", "firstname is missing");
@@ -26,17 +18,7 @@ describe("Creates a new booking", () => {
     cy.request({
       method: "POST",
       url: "/booking",
-      body: {
-        firstname: "Jim",
-        lastname: "Brown",
-        totalprice: 111,
-        depositpaid: true,
-        bookingdates: {
-          checkin: "2018-01-01",
-          checkout: "2019-01-01",
-        },
-        additionalneeds: "Breakfast",
-      },
+      body: perfectUserInfo,
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.body).to.be.jsonSchema(createBookingSchema);

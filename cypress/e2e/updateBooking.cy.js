@@ -1,4 +1,5 @@
 import { updateBookingSchema } from "../utils/schema";
+import { userInfoToBeUpdated } from "../utils/testData";
 
 describe("Updates an existing booking", () => {
   before(() => {
@@ -10,18 +11,8 @@ describe("Updates an existing booking", () => {
 
     cy.request({
       method: "PUT",
-      url: "/booking/1",
-      body: {
-        firstname: "Jim",
-        lastname: "Brown",
-        totalprice: 111,
-        depositpaid: true,
-        bookingdates: {
-          checkin: "2018-01-01",
-          checkout: "2019-01-01",
-        },
-        additionalneeds: "Breakfast",
-      },
+      url: "/booking/2",
+      body: userInfoToBeUpdated,
       headers: {
         Cookie: authorization,
       },
@@ -29,6 +20,7 @@ describe("Updates an existing booking", () => {
     }).then((response) => {
       expect(response.status).to.equal(200);
       expect(response.body).to.be.jsonSchema(updateBookingSchema);
+      expect(response.body.firstname).to.contains("Tuesday");
     });
   });
 
@@ -37,18 +29,8 @@ describe("Updates an existing booking", () => {
 
     cy.request({
       method: "PUT",
-      url: "/booking/1",
-      body: {
-        firstname: "Jim",
-        lastname: "Brown",
-        totalprice: 111,
-        depositpaid: true,
-        bookingdates: {
-          checkin: "2018-01-01",
-          checkout: "2019-01-01",
-        },
-        additionalneeds: "Breakfast",
-      },
+      url: "/booking/2",
+      body: userInfoToBeUpdated,
       headers: {
         Cookie: "invalid token",
       },
